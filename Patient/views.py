@@ -14,7 +14,7 @@ class index(View):
 
 
 class consultations(View):
-    template_name = 'Patient/ConsultationPage.html'
+    template_name = 'Consultation/ConsultationPage.html'
     context = {'ConsultationForm' : forms.ConsultationForm()}
     http_method_names = ['get', 'post']
 
@@ -59,4 +59,12 @@ class consultations(View):
     #         return HttpResponseBadRequest()
 
 
+class pharmacy(View):
+    template_name = 'Pharmacy/PharmacyPage.html'
+    #context = {'ConsultationForm' : forms.ConsultationForm()}
+    http_method_names = ['get', 'post']
 
+    def get(self, request):
+        #self.context['tarrifs'] = models.Tarrif.objects.filter(customer_id=request.user.customer_id.customer_id)
+        #self.context['user'] = request.user
+        return render(request, self.template_name)#, self.context)

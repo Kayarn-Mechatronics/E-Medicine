@@ -1,5 +1,5 @@
 
-{% extends 'Patient/Base.html' %}
+{% extends 'Base.html' %}
 {% load static %}
 
 {% block sources %}
@@ -89,12 +89,12 @@
 
     {% block ConsultationForm %}
 
-      {% include 'Patient/ConsultationForm.html' with ConsultationForm=ConsultationForm %}
+      {% include 'Consultation/ConsultationForm.html' with ConsultationForm=ConsultationForm %}
 
     {% endblock %}
     {% block ConfirmModalDelete %}
 
-      {% include 'Patient/ConfirmDelete.html' %}
+      {% include 'Consultation/ConfirmDelete.html' %}
 
     {% endblock %}
         
