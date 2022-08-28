@@ -1,2 +1,3 @@
 # InsuranceMGT
-Insurance Management Platform
+=======
+Insurance Management System
