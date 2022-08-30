@@ -7,8 +7,14 @@ Insurance Management System
 
 ## Install Steps
 
+### clone repository
+git clone https://github.com/agent87/InsuranceMGT.git
+
 ### Create conda env
 conda create -n insurancemgt django
+
+### activate conda env
+activate insurancemgt
 
 ### install other packages
 pip install -r requirements.txt
