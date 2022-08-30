@@ -1,0 +1,7 @@
+asgiref
+certifi
+Django
+sqlparse
+tzdata
+whitenoise==6.2.0
+wincertstore==0.2
