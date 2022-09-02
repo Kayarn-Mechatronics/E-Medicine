@@ -12,6 +12,14 @@ class index(View):
     def get(self, request):
         return redirect(reverse('login'))
 
+class login(View):
+    template_name = 'Authentication/login.html'
+    http_method_names = ['get', 'post']
+
+    def get(self, request):
+        #self.context['tarrifs'] = models.Tarrif.objects.filter(customer_id=request.user.customer_id.customer_id)
+        #self.context['user'] = request.user
+        return render(request, self.template_name)
 
 class consultations(View):
     template_name = 'Consultation/ConsultationPage.html'
@@ -61,6 +69,39 @@ class consultations(View):
 
 class pharmacy(View):
     template_name = 'Pharmacy/PharmacyPage.html'
+    #context = {'ConsultationForm' : forms.ConsultationForm()}
+    http_method_names = ['get', 'post']
+
+    def get(self, request):
+        #self.context['tarrifs'] = models.Tarrif.objects.filter(customer_id=request.user.customer_id.customer_id)
+        #self.context['user'] = request.user
+        return render(request, self.template_name)#, self.context)
+
+
+class bills(View):
+    template_name = 'Bills/BillsPage.html'
+    #context = {'ConsultationForm' : forms.ConsultationForm()}
+    http_method_names = ['get', 'post']
+
+    def get(self, request):
+        #self.context['tarrifs'] = models.Tarrif.objects.filter(customer_id=request.user.customer_id.customer_id)
+        #self.context['user'] = request.user
+        return render(request, self.template_name)#, self.context)
+
+
+class profile(View):
+    template_name = 'Profile/ProfilePage.html'
+    #context = {'ConsultationForm' : forms.ConsultationForm()}
+    http_method_names = ['get', 'post']
+
+    def get(self, request):
+        #self.context['tarrifs'] = models.Tarrif.objects.filter(customer_id=request.user.customer_id.customer_id)
+        #self.context['user'] = request.user
+        return render(request, self.template_name)#, self.context)
+
+
+class contact(View):
+    template_name = 'Contact/ContactPage.html'
     #context = {'ConsultationForm' : forms.ConsultationForm()}
     http_method_names = ['get', 'post']
 

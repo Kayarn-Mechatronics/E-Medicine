@@ -1,5 +1,5 @@
 
-{% extends 'Base.html' %}
+{% extends 'PharmacyBase.html' %}
 {% load static %}
 
 {% block sources %}
@@ -14,7 +14,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
-        <h4 class="text-center display-4">Medical Consultation</h4>
+        <h4 class="text-center display-4">Prescriptions Bills</h4>
       </div>
       <!-- /.container-fluid -->
     </section>
@@ -22,15 +22,6 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            {% if user.role != "Cashier" %}
-            <div class="row">
-                <div class="col-md-12 offset-md-0">
-                    <button type="button" class="btn btn-default" id="AddTarrif" data-toggle="modal" data-target="#PricingFormModal">
-                        Request Consultations
-                    </button>
-                </div>
-            </div> 
-            {% endif %}
             <!-- List of Accounts-->
             <div class="row mt-2">
                 <div class="col-md-12 offset-md-0">
@@ -53,10 +44,11 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Hospital(Clinic)</th>
-                                            <th>Department</th>
-                                            <th>Date Time</th>
-                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th>Patient</th>
+                                            <th>Medicine</th>
+                                            <th>Discount</th>
+                                            <th>Amount</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -78,7 +70,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer" style="display: block;">
-              Total Consultations : {{ tarrifs.count }}
+              Total Prescriptions : {{ tarrifs.count }}
             </div>
         </div>
                   <!-- /.card -->
