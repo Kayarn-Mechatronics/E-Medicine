@@ -15,11 +15,11 @@ class index(View):
 class login(View):
     template_name = 'Authentication/login.html'
     http_method_names = ['get', 'post']
+    context = {'loginForm' :  forms.loginForm()}
 
     def get(self, request):
-        #self.context['tarrifs'] = models.Tarrif.objects.filter(customer_id=request.user.customer_id.customer_id)
-        #self.context['user'] = request.user
-        return render(request, self.template_name)
+        self.context['user'] = request.user
+        return render(request, self.template_name, self.context)
 
 class consultations(View):
     template_name = 'Consultation/ConsultationPage.html'

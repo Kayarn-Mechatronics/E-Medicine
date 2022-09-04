@@ -20,4 +20,7 @@ class ConsultationForm(forms.Form):
     clinic = forms.TypedChoiceField(label='Clinic', choices=CLINICS_CHOICES, coerce=str, widget=forms.Select(attrs={'class': 'form-control', 'id':'clinic'}))
     Description = forms.CharField(label='Description', widget=forms.TextInput(attrs={'class': 'form-control', 'id':'description', 'placeholder':'Please describe symptoms or situation' }))
 
-     
+class loginForm(forms.Form):
+    email = forms.EmailField(label='Email', widget=forms.DateInput(attrs={'class': 'form-control', 'id':'date', 'type':'date'}), required=True) 
+    passowrd = forms.CharField(label='Password', widget=forms.DateInput(attrs={'class': 'form-control', 'id':'date', 'type':'date'}), required=True)
+
