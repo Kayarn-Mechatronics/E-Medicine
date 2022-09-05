@@ -8,6 +8,7 @@ class Users(AbstractUser):
     email = models.EmailField(db_column='Email', unique=True)
     phonenum = models.CharField(db_column='PhoneNum', max_length=30, blank=True, null=True)
     role = models.CharField(max_length=50, blank=True, null=True)
+    is_relative = models.BooleanField(blank=True, null=True)
     username = None
     mail_verified = models.CharField(max_length=50)
 
@@ -28,14 +29,12 @@ class clinics(models.Model):
     clinic_id = models.SmallAutoField(db_column='clinic_id', primary_key=True, editable=False)
     name = models.CharField(db_column='Name', max_length=50)
 
-
-
     class Meta:
         db_table = 'Clinic'
         verbose_name_plural = "Clinics"
 
     def __str__(self):
-        return self.clinic_id
+        return self.name
 
 
 
@@ -43,12 +42,25 @@ class Consultations(models.Model):
     consultation_id = models.SmallAutoField(db_column='Consultation_ID', primary_key=True, editable=False)
     user_id = models.ForeignKey(Users, on_delete=models.CASCADE, blank=True, null=True)
     date =  models.DateTimeField(db_column='Datetime', blank=True, null=True)
-    clinic_id = None
-
+    clinic_id = models.ForeignKey(clinics, on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         db_table = 'Consultations'
         verbose_name_plural = "Consultations"
 
     def __str__(self):
-        return self.consultation_id
+        return self.user_id.email
+
+
+class ConsultationsReport(models.Model):
+    report_id = models.SmallAutoField(db_column='report_id', primary_key=True, editable=False)
+    consultation_id = models.ForeignKey(Consultations, on_delete=models.CASCADE, blank=True)
+    comment = models.TextField(db_column='comment', blank=True, max_length=100)
+    prescription = models.TextField(db_column='prescription', blank=True, max_length=100)
+
+    class Meta:
+        db_table = 'ConsultationsReport'
+        verbose_name_plural = "ConsultationsReports"
+
+    def __str__(self):
+        return str(self.report_id)

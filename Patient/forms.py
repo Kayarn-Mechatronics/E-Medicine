@@ -1,4 +1,5 @@
 from secrets import choice
+from tkinter import Widget
 from django import forms
 from django.utils import timezone
 from .models import *
@@ -21,6 +22,6 @@ class ConsultationForm(forms.Form):
     Description = forms.CharField(label='Description', widget=forms.TextInput(attrs={'class': 'form-control', 'id':'description', 'placeholder':'Please describe symptoms or situation' }))
 
 class loginForm(forms.Form):
-    email = forms.EmailField(label='Email', widget=forms.DateInput(attrs={'class': 'form-control', 'id':'date', 'type':'date'}), required=True) 
-    passowrd = forms.CharField(label='Password', widget=forms.DateInput(attrs={'class': 'form-control', 'id':'date', 'type':'date'}), required=True)
-
+    email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'class': 'form-control', 'id':'email', 'type':'email'}), required=True) 
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'id':'password', 'type':'password'}), required=True)
+    remember_me = forms.BooleanField(label='Remember me', widget=forms.CheckboxInput(attrs={'class': 'icheck-primary', 'id':'remember', 'type':'checkbox'}))

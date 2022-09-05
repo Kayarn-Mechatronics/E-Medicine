@@ -38,32 +38,32 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="{% url 'Patient_Consultation' %}" class="nav-link">
+            <a href="{% url 'Patient_Consultation' %}" class="nav-link {% if active == 0 %} active {% endif %}">
               <i class="nav-icon fas fa-user-md"></i>
               <p>Consultations</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{% url 'Patient_Presciptions' %}" class="nav-link">
+            <a href="{% url 'Patient_Presciptions' %}" class="nav-link {% if active == 1 %} active {% endif %}">
               <i class="nav-icon fas fa-capsules"></i>
               <p>Pharmacy</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{% url 'Patient_Bills' %}" class="nav-link">
+            <a href="{% url 'Patient_Bills' %}" class="nav-link {% if active == 2 %} active {% endif %}">
               <i class="nav-icon fas fa-money-bill"></i>
               <p>Bills</p>
             </a>
           </li>
           <li class="nav-header">MISCELLANEOUS</li>
           <li class="nav-item">
-            <a href="{% url 'Patient_Profile' %}" id="profile-link" class="nav-link">
+            <a href="{% url 'Patient_Profile' %}" id="profile-link" class="nav-link {% if active == 3 %} active {% endif %}">
               <i class="nav-icon fas fa-user-cog"></i>
               <p>My Profile</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{% url 'Contact-us' %}" id="contact-link" class="nav-link">
+            <a href="{% url 'Contact-us' %}" id="contact-link" class="nav-link {% if active == 4 %} active {% endif %}">
               <i class="nav-icon fas fa-paper-plane"></i>
               <p>Contact us</p>
             </a>
