@@ -61,10 +61,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for tarrif in tarrifs %}
+                                        {% for consultation in consultations %}
                                         <tr>
                                             <th scope="row">{{forloop.counter}}</th>
-                                            <td>{{ tarrif.from_time_formatted }}</td>
+                                            <td>{{ consultation.clinic }}</td>
                                             <td>{{ tarrif.to_time_formatted }}</td>
                                             <td>{{ tarrif.cost_formated }} RWF</td>
                                             <td>

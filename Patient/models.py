@@ -28,7 +28,7 @@ class Users(AbstractUser):
 class clinics(models.Model):
     clinic_id = models.SmallAutoField(db_column='clinic_id', primary_key=True, editable=False)
     name = models.CharField(db_column='Name', max_length=50)
-
+    doctor = models.ForeignKey(Users, on_delete=models.CASCADE, blank=True, null=True)
     class Meta:
         db_table = 'Clinic'
         verbose_name_plural = "Clinics"
@@ -42,7 +42,9 @@ class Consultations(models.Model):
     consultation_id = models.SmallAutoField(db_column='Consultation_ID', primary_key=True, editable=False)
     user_id = models.ForeignKey(Users, on_delete=models.CASCADE, blank=True, null=True)
     date =  models.DateTimeField(db_column='Datetime', blank=True, null=True)
-    clinic_id = models.ForeignKey(clinics, on_delete=models.CASCADE, blank=True, null=True)
+    clinic = models.ForeignKey(clinics, on_delete=models.CASCADE, blank=True, null=True)
+    description = models.TextField(max_length=500, blank=True, null=True)
+
 
     class Meta:
         db_table = 'Consultations'

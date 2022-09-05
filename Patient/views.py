@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404, HttpResponseBadRequest, JsonResponse, HttpRequest, HttpResponse 
 from django.contrib import auth
 from . import forms
+from . import models
 # Create your views here.
 
 
@@ -50,9 +51,14 @@ class consultations(View):
     http_method_names = ['get', 'post']
 
     def get(self, request):
-        #self.context['tarrifs'] = models.Tarrif.objects.filter(customer_id=request.user.customer_id.customer_id)
+        self.context['consultations'] = models.Consultations.objects.filter(user_id=request.user.user_id)
         self.context['user'] = request.user
-        print(self.context)
+        return render(request, self.template_name, self.context)
+
+    def post(self, request):
+        form = forms.ConsultationForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
         return render(request, self.template_name, self.context)
 
     
