@@ -17,13 +17,20 @@ class index(View):
     def get(self, request):
         return redirect(reverse('login'))
 
+class register(View):
+    template_name = 'Authentication/register.html'
+    http_method_names = ['get', 'post']
+    context = {'RegisterForm' :  forms.registrationForm()}
+
+    def get(self, request):
+        return render(request, self.template_name, self.context)
+
 class login(View):
     template_name = 'Authentication/login.html'
     http_method_names = ['get', 'post']
     context = {'loginForm' :  forms.loginForm()}
 
     def get(self, request):
-        self.context['user'] = request.user
         return render(request, self.template_name, self.context)
 
     def post(self, request):

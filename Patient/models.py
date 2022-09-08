@@ -4,13 +4,17 @@ from django.contrib.auth.models import AbstractUser, User
 
 
 class Users(AbstractUser):
+    Roles = [
+		('Patient', 'patient'),
+		('Clinic', 'clinic'),
+		('Pharmacist', 'pharmacist')]
+
     user_id = models.SmallAutoField(primary_key=True, unique=True, editable=False)
     email = models.EmailField(db_column='Email', unique=True)
     phonenum = models.CharField(db_column='PhoneNum', max_length=30, blank=True, null=True)
-    role = models.IntegerField(db_column='Role', blank=True, null=True)
+    role = models.CharField(max_length=255, choices=Roles, default='patient')
     is_relative = models.BooleanField(blank=True, null=True)
     username = None
-    mail_verified = models.CharField(max_length=50)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
