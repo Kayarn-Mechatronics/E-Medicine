@@ -5,14 +5,13 @@ from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404, HttpResponseBadRequest, JsonResponse, HttpRequest, HttpResponse 
 from django.contrib import auth
+from django.contrib.auth.hashers import make_password
 
 import Clinics
 from . import forms
 from . import models
-# Create your views here.
 
 
-#Let User Choose which view
 class index(View):
     def get(self, request):
         return redirect(reverse('login'))
@@ -24,6 +23,33 @@ class register(View):
 
     def get(self, request):
         return render(request, self.template_name, self.context)
+
+    def post(self, request):
+        form  = forms.registrationForm(request.POST)
+        if form.is_valid():
+            userobj = models.Users.objects.filter(email=form.cleaned_data['email'])
+            if userobj.exists():
+                form.add_error(None, 'User with this email already exists, try another one or login.')
+                self.context['SignUpForm'] = form
+                self.context['errors'] = form.errors.get_json_data()['__all__']
+                return render(request, self.template_name, context=self.context)
+            else:
+                if form.cleaned_data['password'] != form.cleaned_data['password_confirmation']:
+                    form.add_error(None, 'Password and Password Confirmation must be the same')
+                    self.context['SignUpForm'] = form
+                    self.context['errors'] = form.errors.get_json_data()['__all__']
+                    return render(request, self.template_name, context=self.context)
+                else:
+                    user_OBJ = models.Users(email=form.cleaned_data['email'], first_name=form.cleaned_data['first_name'], last_name=form.cleaned_data['last_name'], phonenum=form.cleaned_data['phone'], password=make_password(form.cleaned_data['password']),
+                        city=form.cleaned_data['city'],address=form.cleaned_data['address'],id_number=form.cleaned_data['id_number'], is_relative=form.cleaned_data['is_relative'])
+                    user_OBJ.save()
+                    return redirect(reverse('login'))
+        else:
+            form.add_error(None, 'Please fill all fields and check the errors')
+            self.context['SignUpForm'] = form
+            self.context['errors'] = form.errors.get_json_data()['__all__']
+            return render(request, self.template_name, context=self.context)
+
 
 class login(View):
     template_name = 'Authentication/login.html'

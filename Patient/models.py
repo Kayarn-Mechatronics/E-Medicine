@@ -13,7 +13,10 @@ class Users(AbstractUser):
     email = models.EmailField(db_column='Email', unique=True)
     phonenum = models.CharField(db_column='PhoneNum', max_length=30, blank=True, null=True)
     role = models.CharField(max_length=255, choices=Roles, default='patient')
+    city = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
     is_relative = models.BooleanField(blank=True, null=True)
+    id_number = models.CharField(max_length=255, unique=True, null=True, blank=True)
     username = None
 
     USERNAME_FIELD = 'email'
