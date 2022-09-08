@@ -64,13 +64,13 @@ class login(View):
         if form.is_valid():
             user = auth.authenticate(request, username=form.cleaned_data['email'], password=form.cleaned_data['password'])
             if user is not None:
-                if int(user.role) == 0:
+                if user.role == "patient":
                     auth.login(request, user)
                     return redirect(reverse('Patient_Consultation'))
-                elif int(user.role) == 1:
+                elif user.role == "clinic":
                     auth.login(request, user)
                     return redirect(reverse('Clinic_Consultation'))
-                elif int(user.role) == 2:
+                elif user.role == "pharmacist":
                     auth.login(request, user)
                     return redirect(reverse('Pharmacy_Presciptions'))
                 else:
