@@ -10,4 +10,5 @@ urlpatterns = [
     path('bills', views.bills.as_view(), name='Patient_Bills'),
     path('profile', views.profile.as_view(), name='Patient_Profile'),
     path('contact-us', views.contact.as_view(), name='Contact-us'),
+    path('logout', views.logout.as_view(), name='logout'),
 ]

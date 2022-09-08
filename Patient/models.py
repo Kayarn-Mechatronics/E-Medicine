@@ -7,7 +7,7 @@ class Users(AbstractUser):
     user_id = models.SmallAutoField(primary_key=True, unique=True, editable=False)
     email = models.EmailField(db_column='Email', unique=True)
     phonenum = models.CharField(db_column='PhoneNum', max_length=30, blank=True, null=True)
-    role = models.CharField(max_length=50, blank=True, null=True)
+    role = models.IntegerField(db_column='Role', blank=True, null=True)
     is_relative = models.BooleanField(blank=True, null=True)
     username = None
     mail_verified = models.CharField(max_length=50)
@@ -44,6 +44,7 @@ class Consultations(models.Model):
     date =  models.DateTimeField(db_column='Datetime', blank=True, null=True)
     clinic = models.ForeignKey(clinics, on_delete=models.CASCADE, blank=True, null=True)
     description = models.TextField(max_length=500, blank=True, null=True)
+    status = models.CharField(max_length=40, null=True, blank=True, default='Pending')
 
 
     class Meta:
@@ -66,3 +67,18 @@ class ConsultationsReport(models.Model):
 
     def __str__(self):
         return str(self.report_id)
+
+
+class Contact(models.Model):
+    message_id = models.SmallAutoField(db_column='report_id', primary_key=True, editable=False)
+    name = models.CharField(db_column="Names", max_length=100, editable=False)
+    email = models.EmailField(db_column="email", blank=True, null=True)
+    subject = models.CharField(db_column="subject", blank=True, null=True, max_length=500)
+    message = models.TextField(db_column="message", blank=True, null=True, max_length=1000)
+
+    class Meta:
+        db_table = 'Contacts'
+        verbose_name_plural = "Contacts"
+
+    def __str__(self):
+        return str(self.email)

@@ -17,3 +17,11 @@ class loginForm(forms.Form):
     email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'class': 'form-control', 'id':'email', 'type':'email'}), required=True) 
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'id':'password', 'type':'password'}), required=True)
     remember_me = forms.BooleanField(label='Remember me', widget=forms.CheckboxInput(attrs={'class': 'icheck-primary', 'id':'remember', 'type':'checkbox'}))
+
+class contactForm(forms.Form):
+    name = forms.CharField(label='Name', widget=forms.Textarea(attrs={'class': 'form-control', 'id':'description', 'placeholder':'Name' }))
+    email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class': 'form-control', 'id':'description', 'placeholder':'Email' }))
+    subject = forms.CharField(label='subject', widget=forms.TextInput(attrs={'class': 'form-control', 'id':'description', 'placeholder':'Subject' }))
+    message = forms.CharField(label='Message', widget=forms.Textarea(attrs={'class': 'form-control', 'id':'description', 'placeholder':'Messages' }))
+
+
