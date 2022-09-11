@@ -1,7 +1,4 @@
-from secrets import choice
-from tkinter import Widget
 from django import forms
-from django.utils import timezone
 from . import models
 import datetime
 
