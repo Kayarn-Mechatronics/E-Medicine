@@ -2,7 +2,7 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import Http404, HttpResponseBadRequest, JsonResponse, HttpRequest, HttpResponse 
+from django.http import HttpResponseRedirect 
 from Patient import models
 
 
@@ -12,10 +12,29 @@ class consultations(View):
     context = {}
 
     def get(self, request):
-        clinic_id = models.clinics.objects.get(doctor=request.user.user_id)
-        self.context['consultations'] = models.Consultations.objects.filter(clinic = clinic_id)
-        return render(request, self.template_name)
+        clinic_id = models.clinics.objects.filter(doctor=request.user.user_id)
+        self.context['consultations'] = models.Consultations.objects.filter(clinic = clinic_id[0])
+        return render(request, self.template_name, self.context)
 
+class Approveconsultations(View):
+    http_method_names = ['post']
+    context = {}
+
+    def post(self, request, consultation_id):
+        obj = models.Consultations.objects.get(consultation_id=consultation_id)
+        obj.status = 'Approved'
+        obj.save()
+        return HttpResponseRedirect(reverse('Clinic_Consultation'))
+
+class Denyconsultations(View):
+    http_method_names = ['post']
+    context = {}
+
+    def post(self, request, consultation_id):
+        obj = models.Consultations.objects.get(consultation_id=consultation_id)
+        obj.status = 'Deny'
+        obj.save()
+        return HttpResponseRedirect(reverse('Clinic_Consultation'))
 
 class invoices(View):
     template_name = 'Bills/BillsPage.html'

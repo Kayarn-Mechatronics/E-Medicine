@@ -6,4 +6,4 @@ from .models import *
 admin.site.register(Users)
 admin.site.register(clinics)
 admin.site.register(Consultations)
-admin.site.register(ConsultationsReport)
+admin.site.register(pharmacy)

@@ -64,13 +64,13 @@ class login(View):
         if form.is_valid():
             user = auth.authenticate(request, username=form.cleaned_data['email'], password=form.cleaned_data['password'])
             if user is not None:
-                if user.role == "patient":
+                if user.role == "Patient":
                     auth.login(request, user)
                     return redirect(reverse('Patient_Consultation'))
-                elif user.role == "clinic":
+                elif user.role == "Clinic":
                     auth.login(request, user)
                     return redirect(reverse('Clinic_Consultation'))
-                elif user.role == "pharmacist":
+                elif user.role == "Pharmacist":
                     auth.login(request, user)
                     return redirect(reverse('Pharmacy_Presciptions'))
                 else:
@@ -126,8 +126,6 @@ class consultations(View, LoginRequiredMixin):
         return render(request, self.template_name, self.context)
 
     
-
-
 class pharmacy(View):
     template_name = 'Pharmacy/PharmacyPage.html'
     context = {'active' : 1}
