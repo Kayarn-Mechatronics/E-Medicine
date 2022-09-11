@@ -41,7 +41,7 @@ class register(View):
                     return render(request, self.template_name, context=self.context)
                 else:
                     user_OBJ = models.Users(email=form.cleaned_data['email'], first_name=form.cleaned_data['first_name'], last_name=form.cleaned_data['last_name'], phonenum=form.cleaned_data['phone'], password=make_password(form.cleaned_data['password']),
-                        city=form.cleaned_data['city'],address=form.cleaned_data['address'],id_number=form.cleaned_data['id_number'], is_relative=form.cleaned_data['is_relative'])
+                        city=form.cleaned_data['city'],address=form.cleaned_data['address'],id_number=form.cleaned_data['id_number'],role=form.cleaned_data['role'], is_relative=form.cleaned_data['is_relative'])
                     user_OBJ.save()
                     return redirect(reverse('login'))
         else:

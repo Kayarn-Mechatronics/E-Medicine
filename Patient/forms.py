@@ -6,6 +6,12 @@ from . import models
 import datetime
 
 
+Roles = [
+		('Patient', 'Patient'),
+		('Clinic', 'Clinic'),
+		('Pharmacist', 'Pharmacist')]
+
+
 class registrationForm(forms.Form):
     first_name = forms.CharField(label="First Name",widget=forms.TextInput(attrs={'class':'form-control', 'id':'first_name','placeholder':'First Name'}))
     last_name = forms.CharField(label="Last Name",widget=forms.TextInput(attrs={'class':'form-control', 'id':'last_name','placeholder':'Last Name'}))
@@ -16,7 +22,8 @@ class registrationForm(forms.Form):
     address = forms.CharField(label='Address', widget=forms.TextInput(attrs={'class':'form-control','id':'address','placeholder':'Address'}))
     city = forms.CharField(label='City', widget=forms.TextInput(attrs={'class':'form-control','id':'city','placeholder':'City'}))
     id_number = forms.CharField(label='ID Number', widget=forms.TextInput(attrs={'class':'form-control','id':'idnumber','placeholder':'Identification Number'}))
-    is_relative = forms.BooleanField(label='I am a relative of Cimerwa Staff', widget=forms.CheckboxInput(attrs={'class':'form-check-input', 'type':'checkbox','id':'flexSwitchCheckDefault'}))
+    role = forms.ChoiceField(choices = Roles, widget=forms.Select(attrs={'class':'form-control'}))
+    is_relative = forms.BooleanField(label='I am a relative of Cimerwa Staff', widget=forms.CheckboxInput(attrs={'class':'form-control', 'type':'checkbox','id':'flexSwitchCheckDefault'}))
     
 
 class ConsultationForm(forms.Form):
@@ -27,7 +34,6 @@ class ConsultationForm(forms.Form):
 class loginForm(forms.Form):
     email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'class': 'form-control', 'id':'email', 'type':'email'}), required=True) 
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'id':'password', 'type':'password'}), required=True)
-    remember_me = forms.BooleanField(label='Remember me', widget=forms.CheckboxInput(attrs={'class': 'icheck-primary', 'id':'remember', 'type':'checkbox'}))
 
 class contactForm(forms.Form):
     name = forms.CharField(label='Name', widget=forms.Textarea(attrs={'class': 'form-control', 'id':'description', 'placeholder':'Name' }))

@@ -29,7 +29,7 @@ class Users(AbstractUser):
         verbose_name_plural = "Users"
 
     def __str__(self):
-        return self.email
+        return self.first_name + ' '  +self.last_name
 
 
 class clinics(models.Model):

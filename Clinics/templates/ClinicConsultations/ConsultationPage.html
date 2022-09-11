@@ -48,6 +48,7 @@
                           <th>Descriptions</th>
                           <th>Date Time</th>
                           <th>Status</th>
+                          <th>Report</th>
                           <th>Actions</th>
                       </tr>
                   </thead>
@@ -55,12 +56,22 @@
                       {% for consultation in consultations %}
                       <tr>
                           <th scope="row">{{forloop.counter}}</th>
-                          <td>{{ consultation.clinic }}</td>
+                          <td>{{ consultation.user_id }}</td>
                           <td>{{ consultation.description }}</td>
-                          <td>{{ consultation.datetime }} </td>
-                          <td>{{ consultation.status }} </td>
+                          <td>{{ consultation.date|date:"M d, Y" }} </td>
+                          {% if consultation.status == 'Pending' %}
+                            <td><span class="badge bg-warning">{{ consultation.status }}</span></td>
+                          {% elif consultation.status == 'Canceled' %}
+                            <td><span class="badge bg-danger">{{ consultation.status }}</span></td>
+                          {% else %}
+                            <td><span class="badge bg-default">{{ consultation.status }}</span></td>
+                          {% endif %}
                           <td>
-                            <a class="btn-sm btn-danger DeleteTarrif"  data-toggle="modal" data-target="#ConfirmModalDelete" role="button" id={{ tarrif.tarrif_id }} data-bs-toggle="button">Cancel</a>
+                            <a class="btn-sm btn-primary" href='.'>Write Report</a>
+                          </td>
+                          <td>
+                            <a class="btn-sm btn-danger" href='.'>Cancel</a>
+                            <a class="btn-sm btn-success" href='.'>Approve</a>
                           </td>
                       </tr>
                       {% endfor %}
