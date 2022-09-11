@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-m47u-f)r40t5)0q6^7p+n8je29tiyb8r(ri_vf!&9ppsi-3ire
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['insurance-mgt.herokuapp.com']
 
 AUTH_USER_MODEL = 'Patient.Users'
 
