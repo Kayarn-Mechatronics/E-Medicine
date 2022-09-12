@@ -47,7 +47,7 @@
             </div>
           </div>
           <div class="col-7">
-            <form method="POST" action={% url 'Consultation_Report'  1 %}>
+            <form method="POST" action={% url 'Consultation_Report'  consultation_id=consultation.consultation_id %}>
               {% csrf_token %}
               {{ ConsultationReportForm }}
               <div class="modal-footer">

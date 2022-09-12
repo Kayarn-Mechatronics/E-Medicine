@@ -31,14 +31,14 @@ class ConsultationReport(View, LoginRequiredMixin):
         obj = models.Consultations.objects.get(consultation_id=consultation_id)
         report = ClinicForms.ConsultationReportForm(request.POST)
         if report.is_valid():
-            obj.clinic_report = report['report']
+            obj.clinic_report = report.cleaned_data['report']
             obj.status = 'Served'
-            obj.prescriptions = models.pharmacy.objects.get(pharmacy_id=report['pharmacy'])
-            obj.prescriptions = report['prescription']
-            obj.bill_clinic = report['bill']
-            obj.paid_clinic = report['paid']
+            obj.pharmacy_id = report.cleaned_data['pharmacy']
+            obj.prescriptions = report.cleaned_data['prescription']
+            obj.bill_clinic = report.cleaned_data['bill']
+            obj.paid_clinic = report.cleaned_data['paid']
             obj.save()
-        return render(request, self.template_name, self.context)
+        return redirect(reverse('Clinic_Consultation'))
 
 class Approveconsultations(View, LoginRequiredMixin):
     http_method_names = ['get']
