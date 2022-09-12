@@ -125,6 +125,14 @@ class consultations(View, LoginRequiredMixin):
         self.context['consultations'] = models.Consultations.objects.filter(user_id=request.user.user_id)
         return render(request, self.template_name, self.context)
 
+
+class CancelConsultations(View, LoginRequiredMixin):
+    http_method_names = ['post']
+
+    def post(self, request):
+        obj = models.Consultations.objects.get(consultation_id=request.POST['consultation_id'])
+        obj.delete()
+        return redirect(reverse('Patient_Consultation'))
     
 class pharmacy(View):
     template_name = 'Pharmacy/PharmacyPage.html'

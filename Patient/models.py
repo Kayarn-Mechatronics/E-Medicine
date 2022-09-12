@@ -71,9 +71,10 @@ class Consultations(models.Model):
     status = models.CharField(max_length=255, choices=States, default='Patient')
     clinic_report = models.TextField(max_length=1000, null=True, blank=True)
     clinic_report_date = models.DateTimeField(db_column='report_date', blank=True, null=True)
+    pharmacy_id = models.ForeignKey(pharmacy, on_delete=models.CASCADE, blank=True, null=True)
     prescription = models.CharField(max_length=500, null=True, blank=True)
-    bill = models.BigIntegerField(null=True, blank=True)
-    final_bill = models.BigIntegerField(null=True, blank=True)
+    bill_clinic = models.BigIntegerField(null=True, blank=True)
+    paid_clinic = models.BigIntegerField(null=True, blank=True)
     
 
     class Meta:

@@ -71,11 +71,19 @@
                                               <td><span class="badge bg-warning">{{ consultation.status }}</span></td>
                                             {% elif consultation.status == 'Canceled' %}
                                               <td><span class="badge bg-danger">{{ consultation.status }}</span></td>
+                                            {% elif consultation.status == 'Approved' %}
+                                              <td><span class="badge bg-primary">{{ consultation.status }}</span></td>
+                                            {% elif consultation.status == 'Served' %}
+                                              <td><span class="badge bg-primary">{{ consultation.status }}</span></td>
                                             {% else %}
                                               <td><span class="badge bg-default">{{ consultation.status }}</span></td>
                                             {% endif %}
                                             <td>
-                                              <a class="btn-sm btn-danger"  href="#">Cancel</a>
+                                              {% if consultation.status == 'Approved' %}
+                                                <button type="button" class="btn btn-danger btn-sm CancelAppointment" id="{{ consultation.consultation_id }}" data-toggle="modal" data-target="#ConfirmModalDelete">Cancel</button>
+                                              {% else %}
+                                                <button type="button" class="btn btn-warning btn-sm CancelAppointment" id="{{ consultation.consultation_id }}" data-toggle="modal" data-target="#ConfirmModalDelete">Cancel</button>
+                                              {% endif %}
                                             </td>
                                         </tr>
                                         {% endfor %}
@@ -84,7 +92,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer" style="display: block;">
-              Total Consultations : {{ tarrifs.count }}
+              Total Consultations : {{ consultations.count }}
             </div>
         </div>
                   <!-- /.card -->
@@ -100,7 +108,7 @@
     {% endblock %}
     {% block ConfirmModalDelete %}
 
-      {% include 'Consultation/ConfirmDelete.html' %}
+      {% include 'Consultation/ConfirmDelete.html' with consultation_id=consultation.consultation_id %}
 
     {% endblock %}
         
@@ -141,39 +149,9 @@
   </script>
 <script>
 $(function(){
-  $(".ModifyTarrif").click(function(){
-    $("#PricingFormTitle").html("Update Consultation");
-    $("#TarriffForm-tarrif_id").val($(this).attr("id"));
-    $("#from_time").val($(this).attr("data-from-time"));
-    $("#to_time").val($(this).attr("data-to-time"));
-    $("#cost").val($(this).attr("data-cost"));
-    $("#PricingFormAction").val("update");});
+  $(".CancelAppointment").click(function(){
+    $("#DeleteAppointmentForm-Appointmentid").val($(this).attr("id"))});
 
-  $(".DeleteTarrif").click(function(){
-    $("#DeleteTarrifForm-tarrifid").val($(this).attr("id"))});
-
-  $("#AddTarrif").click(function(){
-    $("#PricingFormTitle").html("Consultation Form");
-    $("#TariffForm").attr("Method", "POST");
-    $("#tarrif_id").val('None');
-    $("#from_time").val(0);
-    $("#to_time").val(0);
-    $("#cost").val(0);
-    
-  });
-
- 
-
-  $("#to_time").change(function(){
-    if(parseInt($(this).val()) < parseInt($("#from_time").val())){
-      toastr.warning("Time To must be greater than Time From");
-      $(this).val(parseInt($("#from_time").val())+1);
-    }
-    if(parseInt($(this).val()) < 0){
-      toastr.warning("Time To must be greater than 0");
-      $(this).val(0);
-    }
-  });
 });
 
 </script>

@@ -28,26 +28,35 @@ class ConsultationReport(View, LoginRequiredMixin):
         return render(request, self.template_name, self.context)
 
     def post(self, request, consultation_id):
-
+        obj = models.Consultations.objects.get(consultation_id=consultation_id)
+        report = ClinicForms.ConsultationReportForm(request.POST)
+        if report.is_valid():
+            obj.clinic_report = report['report']
+            obj.status = 'Served'
+            obj.prescriptions = models.pharmacy.objects.get(pharmacy_id=report['pharmacy'])
+            obj.prescriptions = report['prescription']
+            obj.bill_clinic = report['bill']
+            obj.paid_clinic = report['paid']
+            obj.save()
         return render(request, self.template_name, self.context)
 
 class Approveconsultations(View, LoginRequiredMixin):
-    http_method_names = ['post']
+    http_method_names = ['get']
     context = {}
 
-    def post(self, request, consultation_id):
+    def get(self, request, consultation_id):
         obj = models.Consultations.objects.get(consultation_id=consultation_id)
         obj.status = 'Approved'
         obj.save()
         return HttpResponseRedirect(reverse('Clinic_Consultation'))
 
 class Denyconsultations(View, LoginRequiredMixin):
-    http_method_names = ['post']
+    http_method_names = ['get']
     context = {}
 
-    def post(self, request, consultation_id):
+    def get(self, request, consultation_id):
         obj = models.Consultations.objects.get(consultation_id=consultation_id)
-        obj.status = 'Deny'
+        obj.status = 'Denied'
         obj.save()
         return HttpResponseRedirect(reverse('Clinic_Consultation'))
 
