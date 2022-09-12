@@ -17,6 +17,7 @@ class Users(AbstractUser):
     address = models.CharField(max_length=255)
     is_relative = models.BooleanField(blank=True, null=True)
     id_number = models.CharField(max_length=255, unique=True, null=True, blank=True)
+    dob = models.DateField(blank=True, null=True)
     username = None
 
     USERNAME_FIELD = 'email'
@@ -57,14 +58,22 @@ class pharmacy(models.Model):
 
 
 class Consultations(models.Model):
+    States = [
+        ('Served', 'Served'),
+		('Approved', 'Approved'),
+		('Pending', 'Pending'),
+		('Denied', 'Pending')]
     consultation_id = models.SmallAutoField(db_column='Consultation_ID', primary_key=True, editable=False)
     user_id = models.ForeignKey(Users, on_delete=models.CASCADE, blank=True, null=True)
     date =  models.DateTimeField(db_column='Datetime', blank=True, null=True)
     clinic = models.ForeignKey(clinics, on_delete=models.CASCADE, blank=True, null=True)
     description = models.TextField(max_length=500, blank=True, null=True)
-    status = models.CharField(max_length=40, null=True, blank=True, default='Pending')
+    status = models.CharField(max_length=255, choices=States, default='Patient')
     clinic_report = models.TextField(max_length=1000, null=True, blank=True)
+    clinic_report_date = models.DateTimeField(db_column='report_date', blank=True, null=True)
     prescription = models.CharField(max_length=500, null=True, blank=True)
+    bill = models.BigIntegerField(null=True, blank=True)
+    final_bill = models.BigIntegerField(null=True, blank=True)
     
 
     class Meta:

@@ -14,7 +14,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
-        <h4 class="text-center display-4">Doctors Appointments</h4>
+        <h4 class="text-center display-4">Doctor</h4>
       </div>
       <!-- /.container-fluid -->
     </section>
@@ -63,16 +63,40 @@
                             <td><span class="badge bg-warning">{{ consultation.status }}</span></td>
                           {% elif consultation.status == 'Canceled' %}
                             <td><span class="badge bg-danger">{{ consultation.status }}</span></td>
+                          {% elif consultation.status == 'Approved' %}
+                            <td><span class="badge bg-primary">{{ consultation.status }}</span></td>
+                          {% elif consultation.status == 'Served' %}
+                            <td><span class="badge bg-success">{{ consultation.status }}</span></td>
                           {% else %}
                             <td><span class="badge bg-default">{{ consultation.status }}</span></td>
+                          {% endif %}   
+                          {% comment "" %} Write Report Logic {% endcomment %}
+                          {% if consultation.status == 'Approved' %}
+                            <td><a class="btn-sm btn-primary" href={% url 'Consultation_Report' consultation_id=consultation.consultation_id %}>Write Report</a></td>
+                          {% elif consultation.status == 'served' %}
+                            <td><a class="btn-sm btn-warning" href={% url 'Consultation_Report' consultation_id=consultation.consultation_id %}>Modify Report</a></td>
+                          {% else %}
+                            <td></td>
                           {% endif %}
-                          <td>
-                            <a class="btn-sm btn-primary" href='.'>Write Report</a>
-                          </td>
-                          <td>
-                            <a class="btn-sm btn-danger" href='.'>Cancel</a>
-                            <a class="btn-sm btn-success" href='.'>Approve</a>
-                          </td>
+                          {% comment "" %} Approved Consultation {% endcomment %}
+                          {% if consultation.status == 'Approved' %}
+                            <td>
+                              <a class="btn-sm btn-danger" href={% url 'Deny_Consultation' consultation_id=consultation.consultation_id %}>Deny</a>
+                            </td>
+                          {% elif consultation.status == 'Served' %}
+                            <td></td>
+                          {% elif consultation.status == 'Denied' %}
+                            <td>
+                              <a class="btn-sm btn-success" href={% url 'Approve_Consultation' consultation_id=consultation.consultation_id %}>Approve</a>
+                            </td>
+                          {% elif consultation.status == 'Pending' %}
+                            <td>
+                              <a class="btn-sm btn-danger" href={% url 'Deny_Consultation' consultation_id=consultation.consultation_id %}>Deny</a>
+                              <a class="btn-sm btn-success" href={% url 'Approve_Consultation' consultation_id=consultation.consultation_id %}>Approve</a>
+                            </td>
+                          {% else %}
+                            <td></td>
+                          {% endif %}
                       </tr>
                       {% endfor %}
                   </tbody>

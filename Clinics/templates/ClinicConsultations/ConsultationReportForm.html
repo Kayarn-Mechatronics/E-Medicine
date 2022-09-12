@@ -1,5 +1,5 @@
 
-{% extends 'Base.html' %}
+{% extends 'ClinicsBase.html' %}
 {% load static %}
 
 {% block sources %}
@@ -10,45 +10,61 @@
 
 {% block content %}
 
-<div class="content-wrapper">
+<div class="content-wrapper" style="min-height: 2646.44px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
-        <h4 class="text-center display-4">Patient Consultation Report</h4>
-      </div>
-      <!-- /.container-fluid -->
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Doctor Report Form</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Doctor Report</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-        <div class="container-fluid">
-            <!-- List of Accounts-->
-            <div class="row mt-2">
-                <div class="col-md-12 offset-md-0">
-                  <!--Entity Table-->
-                      <div class="card">
-              <div class="card-body">
-                <div class="tab-content">
-                  <!-- /.tab-pane -->
-                  <div>
-                    <form class="form-horizontal">
-                      
-                      
-                    </form>
-                  </div>
-                  <!-- /.tab-pane -->
-                </div>
-                <!-- /.tab-content -->
-              </div><!-- /.card-body -->
-            </div>
-                  <!-- /.card -->
-                </div>
-                <!-- /.col -->
-            </div>
-        </div>
 
-        
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-body row">
+          <div class="col-5 text-center d-flex align-items-center justify-content-center">
+            <div class="">
+              <h2>Doctor Report Form</h2>
+              <h5><strong>NAME: </strong>{{ consultation.user_id }}</h5>
+              <h5><strong>COVERAGE: </strong>
+                {% if 'consultation.user_id.is_relative' %}<span class="badge bg-warning">85%</span>{% else %}<span class="badge bg-success">100%</span>{% endif %}</h5>
+              <h5><strong>AGE: </strong>{{ consultation.user_id.age }}</h5>
+              <h5><strong>ID Number: </strong>{{ consultation.user_id.id_number }}</h5>
+              <h5><strong>Description: </strong></h5>
+              <p class="lead mb-5">{{ consultation.description }}</p>
+            </div>
+          </div>
+          <div class="col-7">
+            <form method="POST" action={% url 'Consultation_Report'  1 %}>
+              {% csrf_token %}
+              {{ ConsultationReportForm }}
+              <div class="modal-footer">
+                <div class="col cancelform" >
+                    <button type="button" class="btn btn-danger col-sm-12" href={% url 'Clinic_Consultation' %}>Close</button>
+                </div>
+                <div class="col submitform" >
+                    <button type="submit"  class="btn btn-primary col-sm-12">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
     </section>
+    <!-- /.content -->
   </div>
 
 {% endblock %}
@@ -74,65 +90,6 @@
 <script src="{% static 'plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
 
 
-<script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": true, "autoWidth": true,
-        "buttons": ["copy", "csv", "excel", "colvis"]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-      
-    });
-  </script>
-<script>
-$(function(){
-  $(".ModifyTarrif").click(function(){
-    $("#PricingFormTitle").html("Update Consultation");
-    $("#TarriffForm-tarrif_id").val($(this).attr("id"));
-    $("#from_time").val($(this).attr("data-from-time"));
-    $("#to_time").val($(this).attr("data-to-time"));
-    $("#cost").val($(this).attr("data-cost"));
-    $("#PricingFormAction").val("update");});
-
-  $(".DeleteTarrif").click(function(){
-    $("#DeleteTarrifForm-tarrifid").val($(this).attr("id"))});
-
-  $("#AddTarrif").click(function(){
-    $("#PricingFormTitle").html("Consultation Form");
-    $("#TariffForm").attr("Method", "POST");
-    $("#tarrif_id").val('None');
-    $("#from_time").val(0);
-    $("#to_time").val(0);
-    $("#cost").val(0);
-    
-  });
-
- 
-
-  $("#to_time").change(function(){
-    if(parseInt($(this).val()) < parseInt($("#from_time").val())){
-      toastr.warning("Time To must be greater than Time From");
-      $(this).val(parseInt($("#from_time").val())+1);
-    }
-    if(parseInt($(this).val()) < 0){
-      toastr.warning("Time To must be greater than 0");
-      $(this).val(0);
-    }
-  });
-});
-
-</script>
-
-<script>
-
-$(function (){
-
-$("#TarriffForm").submit(function(e){
-  e.preventDefault();
-  
-});
-
-});
 
 
-</script>
 {% endblock %}

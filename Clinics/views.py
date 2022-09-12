@@ -4,9 +4,10 @@ from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect 
 from Patient import models
+from . import forms as ClinicForms
 
 
-class consultations(View):
+class consultations(View, LoginRequiredMixin):
     template_name = 'ClinicConsultations/ConsultationPage.html'
     http_method_names = ['get', 'post']
     context = {}
@@ -16,7 +17,21 @@ class consultations(View):
         self.context['consultations'] = models.Consultations.objects.filter(clinic = clinic_id[0])
         return render(request, self.template_name, self.context)
 
-class Approveconsultations(View):
+
+class ConsultationReport(View, LoginRequiredMixin):
+    template_name = 'ClinicConsultations/ConsultationReportForm.html'
+    http_method_names = ['get', 'post']
+    context = {'ConsultationReportForm': ClinicForms.ConsultationReportForm()}
+
+    def get(self, request, consultation_id):
+        self.context['consultation'] = models.Consultations.objects.get(consultation_id=consultation_id)
+        return render(request, self.template_name, self.context)
+
+    def post(self, request, consultation_id):
+
+        return render(request, self.template_name, self.context)
+
+class Approveconsultations(View, LoginRequiredMixin):
     http_method_names = ['post']
     context = {}
 
@@ -26,7 +41,7 @@ class Approveconsultations(View):
         obj.save()
         return HttpResponseRedirect(reverse('Clinic_Consultation'))
 
-class Denyconsultations(View):
+class Denyconsultations(View, LoginRequiredMixin):
     http_method_names = ['post']
     context = {}
 
@@ -36,7 +51,7 @@ class Denyconsultations(View):
         obj.save()
         return HttpResponseRedirect(reverse('Clinic_Consultation'))
 
-class invoices(View):
+class invoices(View, LoginRequiredMixin):
     template_name = 'Bills/BillsPage.html'
     http_method_names = ['get', 'post']
 
@@ -44,7 +59,7 @@ class invoices(View):
         return render(request, self.template_name)
 
 
-class profile(View):
+class profile(View, LoginRequiredMixin):
     template_name = 'Profile/ProfilePage.html'
     #context = {'ConsultationForm' : forms.ConsultationForm()}
     http_method_names = ['get', 'post']
@@ -55,7 +70,7 @@ class profile(View):
         return render(request, self.template_name)#, self.context)
 
 
-class contact(View):
+class contact(View, LoginRequiredMixin):
     template_name = 'Contact/ContactPage.html'
     #context = {'ConsultationForm' : forms.ConsultationForm()}
     http_method_names = ['get', 'post']
