@@ -1,0 +1,95 @@
+
+{% extends 'PharmacyBase.html' %}
+{% load static %}
+
+{% block sources %}
+  <link rel="stylesheet" href="{% static 'plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+  <link rel="stylesheet" href="{% static 'plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="content-wrapper" style="min-height: 2646.44px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Pharmacy Report Form</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Pharmacy Report</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-body row">
+          <div class="col-5 text-center d-flex align-items-center justify-content-center">
+            <div class="">
+              <h2>Doctor Report Form</h2>
+              <h5><strong>NAME: </strong>{{ consultation.user_id }}</h5>
+              <h5><strong>COVERAGE: </strong>
+                {% if 'consultation.user_id.is_relative' %}<span class="badge bg-warning">85%</span>{% else %}<span class="badge bg-success">100%</span>{% endif %}</h5>
+              <h5><strong>AGE: </strong>{{ consultation.user_id.age }}</h5>
+              <h5><strong>ID Number: </strong>{{ consultation.user_id.id_number }}</h5>
+              <h5><strong>Description: </strong></h5>
+              <p class="lead mb-5">{{ consultation.description }}</p>
+            </div>
+          </div>
+          <div class="col-7">
+            <form method="POST" action={% url 'Consultation_Report'  consultation_id=consultation.consultation_id %}>
+              {% csrf_token %}
+              {{ ConsultationReportForm }}
+              <div class="modal-footer">
+                <div class="col cancelform" >
+                    <button type="button" class="btn btn-danger col-sm-12" href={% url 'Clinic_Consultation' %}>Close</button>
+                </div>
+                <div class="col submitform" >
+                    <button type="submit"  class="btn btn-primary col-sm-12">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </section>
+    <!-- /.content -->
+  </div>
+
+{% endblock %}
+
+{% block script %}
+
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Select2 -->
+<script src="{% static 'plugins/select2/js/select2.full.min.js' %}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'plugins/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'plugins/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+
+
+
+
+{% endblock %}

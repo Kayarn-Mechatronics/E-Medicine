@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect 
 from Patient import models
 from . import forms as ClinicForms
+from lib.pindo import send_sms
 
 
 class consultations(View, LoginRequiredMixin):
@@ -48,6 +49,12 @@ class Approveconsultations(View, LoginRequiredMixin):
         obj = models.Consultations.objects.get(consultation_id=consultation_id)
         obj.status = 'Approved'
         obj.save()
+        if obj.user_id.is_relative:
+            coverage = '85%'
+        else:
+            coverage = '100%'
+        send_sms(obj.user_id.phonenum, 'Dear {0}, We would to notify you that your medical consultation appointment request at {1} on the {2} has been approved! Please note that Cimerwa PLC will cover {3} of the cost.'.format(obj.user_id.first_name, obj.clinic.name, obj.date, coverage))           
+        
         return HttpResponseRedirect(reverse('Clinic_Consultation'))
 
 class Denyconsultations(View, LoginRequiredMixin):
@@ -58,10 +65,11 @@ class Denyconsultations(View, LoginRequiredMixin):
         obj = models.Consultations.objects.get(consultation_id=consultation_id)
         obj.status = 'Denied'
         obj.save()
+        send_sms(obj.user_id.phonenum, 'Dear {0}, We would to notify you that your medical consultation appointment request at {1} on the {2} has been denied! Please login back to insurance-mgt.herokuapp.com to book another appointment!.'.format(obj.user_id.first_name, obj.clinic.name, obj.date))           
         return HttpResponseRedirect(reverse('Clinic_Consultation'))
 
 class invoices(View, LoginRequiredMixin):
-    template_name = 'Bills/BillsPage.html'
+    template_name = 'Invoices/InvoicesPage.html'
     http_method_names = ['get', 'post']
 
     def get(self, request):

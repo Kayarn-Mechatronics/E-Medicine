@@ -23,11 +23,11 @@
       <a href="." class="h1"><b>Insurance </b>MGT</a>
     </div>
     <div class="card-body">
-      <p class="login-box-msg">Create a Patient account to access our insurance services!</p>
+      <p class="login-box-msg">Register a Pharmacy account with us!</p>
 
-      <form action="register" method="post">
-        {% csrf_token %}
-        {{ RegisterForm }}
+      <form action="{% url 'pharmacy-register' %}" method="post">
+            {% csrf_token %}
+            {{ RegisterForm }}
         <div class="row">
           <!-- /.col -->
           <div class="col-4">

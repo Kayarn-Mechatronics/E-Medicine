@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404, HttpResponseBadRequest, JsonResponse, HttpRequest, HttpResponse 
 from django.contrib import auth
 from django.contrib.auth.hashers import make_password
+from lib.pindo import send_sms
 
 import Clinics
 from . import forms
@@ -41,8 +42,84 @@ class register(View):
                     return render(request, self.template_name, context=self.context)
                 else:
                     user_OBJ = models.Users(email=form.cleaned_data['email'], first_name=form.cleaned_data['first_name'], last_name=form.cleaned_data['last_name'], phonenum=form.cleaned_data['phone'], password=make_password(form.cleaned_data['password']),
-                        city=form.cleaned_data['city'],address=form.cleaned_data['address'],id_number=form.cleaned_data['id_number'],role=form.cleaned_data['role'], is_relative=form.cleaned_data['is_relative'])
+                        city=form.cleaned_data['city'],address=form.cleaned_data['address'],id_number=form.cleaned_data['id_number'],role='Patient', is_relative=form.cleaned_data['is_relative'])
                     user_OBJ.save()
+                    print(user_OBJ.phonenum)
+                    send_sms(user_OBJ.phonenum, 'Dear {0}, Thank you for registering as patient to Cimerwa. We look forward to working with you to improve the health of our staff and their relatives together'.format(user_OBJ.first_name))
+                    return redirect(reverse('login'))
+        else:
+            form.add_error(None, 'Please fill all fields and check the errors')
+            self.context['SignUpForm'] = form
+            self.context['errors'] = form.errors.get_json_data()['__all__']
+            return render(request, self.template_name, context=self.context)
+
+class clinic_register(View):
+    template_name = 'Authentication/register-clinic.html'
+    http_method_names = ['get', 'post']
+    context = {'RegisterForm' :  forms.clinic_registrationForm()}
+
+    def get(self, request):
+        return render(request, self.template_name, self.context)
+
+    def post(self, request):
+        form  = forms.clinic_registrationForm(request.POST)
+        if form.is_valid():
+            userobj = models.Users.objects.filter(email=form.cleaned_data['email'])
+            if userobj.exists():
+                form.add_error(None, 'User with this email already exists, try another one or login.')
+                self.context['SignUpForm'] = form
+                self.context['errors'] = form.errors.get_json_data()['__all__']
+                return render(request, self.template_name, context=self.context)
+            else:
+                if form.cleaned_data['password'] != form.cleaned_data['password_confirmation']:
+                    form.add_error(None, 'Password and Password Confirmation must be the same')
+                    self.context['SignUpForm'] = form
+                    self.context['errors'] = form.errors.get_json_data()['__all__']
+                    return render(request, self.template_name, context=self.context)
+                else:
+                    user_OBJ = models.Users(email=form.cleaned_data['email'], first_name=form.cleaned_data['first_name'], last_name=form.cleaned_data['last_name'], phonenum=form.cleaned_data['phone'], password=make_password(form.cleaned_data['password']),
+                        city=form.cleaned_data['city'],address=form.cleaned_data['address'],role='Clinic')
+                    user_OBJ.save()
+                    clinic_OBJ = models.clinics(name=form.cleaned_data['clinic'], doctor = user_OBJ )
+                    clinic_OBJ.save()
+                    send_sms(user_OBJ.phonenum, 'Dear {0}, Thank you for registering {1} as a new partner to Cimerwa. We look forward to working with you to improve the health of our staff and their relatives together'.format(user_OBJ.first_name, clinic_OBJ.name))
+                    return redirect(reverse('login'))
+        else:
+            form.add_error(None, 'Please fill all fields and check the errors')
+            self.context['SignUpForm'] = form
+            self.context['errors'] = form.errors.get_json_data()['__all__']
+            return render(request, self.template_name, context=self.context)
+
+class pharmacy_register(View):
+    template_name = 'Authentication/register-pharmacy.html'
+    http_method_names = ['get', 'post']
+    context = {'RegisterForm' :  forms.pharmacy_registrationForm()}
+
+    def get(self, request):
+        return render(request, self.template_name, self.context)
+
+    def post(self, request):
+        form  = forms.pharmacy_registrationForm()(request.POST)
+        if form.is_valid():
+            userobj = models.Users.objects.filter(email=form.cleaned_data['email'])
+            if userobj.exists():
+                form.add_error(None, 'User with this email already exists, try another one or login.')
+                self.context['SignUpForm'] = form
+                self.context['errors'] = form.errors.get_json_data()['__all__']
+                return render(request, self.template_name, context=self.context)
+            else:
+                if form.cleaned_data['password'] != form.cleaned_data['password_confirmation']:
+                    form.add_error(None, 'Password and Password Confirmation must be the same')
+                    self.context['SignUpForm'] = form
+                    self.context['errors'] = form.errors.get_json_data()['__all__']
+                    return render(request, self.template_name, context=self.context)
+                else:
+                    user_OBJ = models.Users(email=form.cleaned_data['email'], first_name=form.cleaned_data['first_name'], last_name=form.cleaned_data['last_name'], phonenum=form.cleaned_data['phone'], password=make_password(form.cleaned_data['password']),
+                        city=form.cleaned_data['city'],address=form.cleaned_data['address'],role="Pharmacist")
+                    user_OBJ.save()
+                    pharmacy_OBJ = models.pharmacy(name=form.cleaned_data['pharmacy'], pharmacist = user_OBJ )
+                    pharmacy_OBJ.save()
+                    send_sms(user_OBJ.phonenum, 'Dear {0}, Thank you for registering {1} as a new partner to Cimerwa. We look forward to working with you to improve the health of our staff and their relatives together'.format(user_OBJ.first_name, pharmacy_OBJ.name))
                     return redirect(reverse('login'))
         else:
             form.add_error(None, 'Please fill all fields and check the errors')
