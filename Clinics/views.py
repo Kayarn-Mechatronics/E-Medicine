@@ -36,8 +36,7 @@ class ConsultationReport(View, LoginRequiredMixin):
             obj.status = 'Served'
             obj.pharmacy_id = report.cleaned_data['pharmacy']
             obj.prescriptions = report.cleaned_data['prescription']
-            obj.bill_clinic = report.cleaned_data['bill']
-            obj.paid_clinic = report.cleaned_data['paid']
+            #obj.bill_clinic = report.cleaned_data['bill_pharmacy']
             obj.save()
         return redirect(reverse('Clinic_Consultation'))
 
@@ -71,9 +70,12 @@ class Denyconsultations(View, LoginRequiredMixin):
 class invoices(View, LoginRequiredMixin):
     template_name = 'Invoices/InvoicesPage.html'
     http_method_names = ['get', 'post']
+    context = {'active': 1}
 
     def get(self, request):
-        return render(request, self.template_name)
+        clinic_id = models.clinics.objects.filter(doctor=request.user.user_id)
+        self.context['invoices'] = models.Consultations.objects.filter(clinic = clinic_id[0])
+        return render(request, self.template_name, self.context)
 
 
 class profile(View, LoginRequiredMixin):

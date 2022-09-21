@@ -68,13 +68,14 @@ class Consultations(models.Model):
     date =  models.DateTimeField(db_column='Datetime', blank=True, null=True)
     clinic = models.ForeignKey(clinics, on_delete=models.CASCADE, blank=True, null=True)
     description = models.TextField(max_length=500, blank=True, null=True)
-    status = models.CharField(max_length=255, choices=States, default='Patient')
+    status = models.CharField(max_length=255, choices=States, default='Pending')
     clinic_report = models.TextField(max_length=1000, null=True, blank=True)
     clinic_report_date = models.DateTimeField(db_column='report_date', blank=True, null=True)
     pharmacy_id = models.ForeignKey(pharmacy, on_delete=models.CASCADE, blank=True, null=True)
     prescription = models.CharField(max_length=500, null=True, blank=True)
-    bill_clinic = models.BigIntegerField(null=True, blank=True)
-    paid_clinic = models.BigIntegerField(null=True, blank=True)
+    bill_pharmacy = models.BigIntegerField(null=True, blank=True)
+    pin_clinic = models.BigIntegerField(null=True, blank=True)
+    pin_pharmacy = models.BigIntegerField(null=True, blank=True)
     
 
     class Meta:

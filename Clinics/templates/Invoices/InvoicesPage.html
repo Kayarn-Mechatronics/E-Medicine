@@ -46,7 +46,6 @@
                                             <th>#</th>
                                             <th>Date</th>
                                             <th>Patient Name</th>
-                                            <th>Consultation ID</th>
                                             <th>Amount</th>
                                             <th>Coverage</th>
                                         </tr>
@@ -54,14 +53,15 @@
                                     <tbody>
                                         {% for invoice in invoices %}
                                         <tr>
-                                            <th scope="row">{{forloop.counter}}</th>
-                                            <td>{{ tarrif.from_time_formatted }}</td>
-                                            <td>{{ tarrif.to_time_formatted }}</td>
-                                            <td>{{ tarrif.cost_formated }} RWF</td>
-                                            <td>
-                                              <a class="btn-sm btn-warning ModifyTarrif" data-toggle="modal" data-target="#PricingFormModal" role="button" data-from-time={{ tarrif.from_time }} data-to-time={{ tarrif.to_time }} data-cost={{ tarrif.cost }} id={{ tarrif.tarrif_id }} data-bs-toggle="button">Update</a>
-                                              <a class="btn-sm btn-danger DeleteTarrif"  data-toggle="modal" data-target="#ConfirmModalDelete" role="button" id={{ tarrif.tarrif_id }} data-bs-toggle="button">Delete</a>
-                                            </td>
+                                          <th scope="row">{{forloop.counter}}</th>
+                                          <td>{{ invoice.date|date:"M d, Y" }} </td>
+                                          <td>{{ invoice.user_id }}</td>
+                                          <td>10,000 RWF</td>
+                                          {% if invoice.user_id.is_relative %}
+                                                <td>85%</td>
+                                          {% else %}
+                                                <td>100%</td>
+                                          {% endif %}
                                         </tr>
                                         {% endfor %}
                                     </tbody>
