@@ -1,4 +1,5 @@
 
+
 {% extends 'Base.html' %}
 {% load static %}
 
@@ -43,25 +44,15 @@
             </div>
           </div>
           <div class="col-7">
-            <div class="form-group">
-              <label for="inputName">Name</label>
-              <input type="text" id="inputName" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="inputEmail">E-Mail</label>
-              <input type="email" id="inputEmail" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="inputSubject">Subject</label>
-              <input type="text" id="inputSubject" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="inputMessage">Message</label>
-              <textarea id="inputMessage" class="form-control" rows="4"></textarea>
-            </div>
-            <div class="form-group">
-              <input type="submit" class="btn btn-primary" value="Send message">
-            </div>
+            <form action={% url 'Contact-us' %} method="POST">
+                {% csrf_token %}
+                {{ ContactForm }}
+              <tr>
+                <td>
+                  <button type="submit" id="SubmitTarrifFormButton" class="btn btn-primary col-sm-12">Submit</button>
+                </td>
+              </tr>
+            </form>
           </div>
         </div>
       </div>
@@ -93,65 +84,5 @@
 <script src="{% static 'plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
 
 
-<script>
-    $(function () {
-      $("#example1").DataTable({
-        "responsive": true, "lengthChange": true, "autoWidth": true,
-        "buttons": ["copy", "csv", "excel", "colvis"]
-      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-      
-    });
-  </script>
-<script>
-$(function(){
-  $(".ModifyTarrif").click(function(){
-    $("#PricingFormTitle").html("Update Consultation");
-    $("#TarriffForm-tarrif_id").val($(this).attr("id"));
-    $("#from_time").val($(this).attr("data-from-time"));
-    $("#to_time").val($(this).attr("data-to-time"));
-    $("#cost").val($(this).attr("data-cost"));
-    $("#PricingFormAction").val("update");});
 
-  $(".DeleteTarrif").click(function(){
-    $("#DeleteTarrifForm-tarrifid").val($(this).attr("id"))});
-
-  $("#AddTarrif").click(function(){
-    $("#PricingFormTitle").html("Consultation Form");
-    $("#TariffForm").attr("Method", "POST");
-    $("#tarrif_id").val('None');
-    $("#from_time").val(0);
-    $("#to_time").val(0);
-    $("#cost").val(0);
-    
-  });
-
- 
-
-  $("#to_time").change(function(){
-    if(parseInt($(this).val()) < parseInt($("#from_time").val())){
-      toastr.warning("Time To must be greater than Time From");
-      $(this).val(parseInt($("#from_time").val())+1);
-    }
-    if(parseInt($(this).val()) < 0){
-      toastr.warning("Time To must be greater than 0");
-      $(this).val(0);
-    }
-  });
-});
-
-</script>
-
-<script>
-
-$(function (){
-
-$("#TarriffForm").submit(function(e){
-  e.preventDefault();
-  
-});
-
-});
-
-
-</script>
 {% endblock %}

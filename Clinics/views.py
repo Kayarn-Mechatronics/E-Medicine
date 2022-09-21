@@ -35,7 +35,7 @@ class ConsultationReport(View, LoginRequiredMixin):
             obj.clinic_report = report.cleaned_data['report']
             obj.status = 'Served'
             obj.pharmacy_id = report.cleaned_data['pharmacy']
-            obj.prescriptions = report.cleaned_data['prescription']
+            obj.prescription = report.cleaned_data['prescription']
             #obj.bill_clinic = report.cleaned_data['bill_pharmacy']
             obj.save()
         return redirect(reverse('Clinic_Consultation'))

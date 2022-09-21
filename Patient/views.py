@@ -98,7 +98,7 @@ class pharmacy_register(View):
         return render(request, self.template_name, self.context)
 
     def post(self, request):
-        form  = forms.pharmacy_registrationForm()(request.POST)
+        form  = forms.pharmacy_registrationForm(request.POST)
         if form.is_valid():
             userobj = models.Users.objects.filter(email=form.cleaned_data['email'])
             if userobj.exists():
@@ -248,8 +248,7 @@ class contact(View):
     template_name = 'Contact/ContactPage.html'
     context = {'active' : 4}
     http_method_names = ['get', 'post']
+    context['ContactForm'] = forms.contactForm()
 
     def get(self, request):
-        #self.context['tarrifs'] = models.Tarrif.objects.filter(customer_id=request.user.customer_id.customer_id)
-        #self.context['user'] = request.user
         return render(request, self.template_name, self.context)

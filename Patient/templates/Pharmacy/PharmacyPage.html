@@ -46,22 +46,20 @@
                                             <th>#</th>
                                             <th>Date</th>
                                             <th>Medicine</th>
-                                            <th>Occupation</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
+                                            <th>Pharmacy</th>
+                                            <th>Contact</th>
+                                            <th>Address</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for tarrif in tarrifs %}
+                                        {% for prescription in prescriptions %}
                                         <tr>
                                             <th scope="row">{{forloop.counter}}</th>
-                                            <td>{{ tarrif.from_time_formatted }}</td>
-                                            <td>{{ tarrif.to_time_formatted }}</td>
-                                            <td>{{ tarrif.cost_formated }} RWF</td>
-                                            <td>
-                                              <a class="btn-sm btn-warning ModifyTarrif" data-toggle="modal" data-target="#PricingFormModal" role="button" data-from-time={{ tarrif.from_time }} data-to-time={{ tarrif.to_time }} data-cost={{ tarrif.cost }} id={{ tarrif.tarrif_id }} data-bs-toggle="button">Update</a>
-                                              <a class="btn-sm btn-danger DeleteTarrif"  data-toggle="modal" data-target="#ConfirmModalDelete" role="button" id={{ tarrif.tarrif_id }} data-bs-toggle="button">Delete</a>
-                                            </td>
+                                            <td>{{ prescription.date }}</td>
+                                            <td>{{ prescription.prescription }}</td>
+                                            <td>{{ prescription.pharmacy_id }}</td>
+                                            <td>{{ prescription.pharmacy_id.pharmacist.phonenum }}</td>
+                                            <td>{{ prescription.pharmacy_id.pharmacist.address }}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -69,7 +67,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer" style="display: block;">
-              Total Prescriptions : {{ tarrifs.count }}
+              Total Prescriptions : {{ prescriptions.count }}
             </div>
         </div>
                   <!-- /.card -->
