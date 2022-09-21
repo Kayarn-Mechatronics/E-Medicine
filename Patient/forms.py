@@ -22,7 +22,7 @@ class registrationForm(forms.Form):
     city = forms.CharField(label='City', widget=forms.TextInput(attrs={'class':'form-control','id':'city','placeholder':'City'}))
     id_number = forms.CharField(label='ID Number', widget=forms.TextInput(attrs={'class':'form-control','id':'idnumber','placeholder':'Identification Number'}))
     dob = forms.CharField(label='Date of Birth', widget=forms.DateInput(attrs={'class':'form-control', 'type':'date','id':'dob'}))
-    is_relative = forms.BooleanField(label='I am a relative of Cimerwa Staff', widget=forms.CheckboxInput(attrs={'class':'form-control', 'type':'checkbox','id':'flexSwitchCheckDefault'}))
+    is_relative = forms.BooleanField(label='I am a relative of Cimerwa Staff', required=False, widget=forms.CheckboxInput(attrs={'class':'form-control', 'type':'checkbox','id':'flexSwitchCheckDefault'}))
     
 
 class clinic_registrationForm(forms.Form):
