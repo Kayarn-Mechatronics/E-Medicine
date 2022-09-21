@@ -252,3 +252,6 @@ class contact(View):
 
     def get(self, request):
         return render(request, self.template_name, self.context)
+
+    def post(self, request):
+        return render(request, self.template_name, self.context)

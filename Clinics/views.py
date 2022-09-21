@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect 
 from Patient import models
+from Patient import forms as PatientForms
+import Patient
 from . import forms as ClinicForms
 from lib.pindo import send_sms
 
@@ -91,10 +93,13 @@ class profile(View, LoginRequiredMixin):
 
 class contact(View, LoginRequiredMixin):
     template_name = 'Contact/ContactPage.html'
-    #context = {'ConsultationForm' : forms.ConsultationForm()}
     http_method_names = ['get', 'post']
+    context = {}
 
     def get(self, request):
-        #self.context['tarrifs'] = models.Tarrif.objects.filter(customer_id=request.user.customer_id.customer_id)
-        #self.context['user'] = request.user
-        return render(request, self.template_name)#, self.context)
+        self.context['ContactForm'] = PatientForms.contactForm()
+        return render(request, self.template_name, self.context)
+
+    def post(self, request):
+        self.context['ContactForm'] = PatientForms.contactForm()
+        return render(request, self.template_name, self.context)
