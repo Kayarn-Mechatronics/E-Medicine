@@ -42,7 +42,7 @@ class clinics(models.Model):
         verbose_name_plural = "Clinics"
 
     def __str__(self):
-        return self.name
+        return self.name + ' - Dr.' + self.doctor.first_name + ' ' + self.doctor.last_name
 
 
 class pharmacy(models.Model):
