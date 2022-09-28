@@ -1,0 +1,26 @@
+* python manage.py runserver / goto insurance-mgt.herokuapp.com
+
+
+register a patient
+register clinic
+register pharmacy
+login in patient account
+request patient consultation
+logout patient account
+login clinic account
+approve patient consulation
+write report for patient consultation
+go to clinic invoices
+logout clinic account
+login pharmacy account
+write pharmacy report/bill
+go to pharmcy invoices
+logout pharmacy
+login patient again
+go to prescription
+go to bills
+log out again
+
+login in admin using admin@cimerwa.rw and passowrd=bella
+
+Done!

@@ -40,7 +40,7 @@
               <h5><strong>NAME: </strong>{{ consultation.user_id }}</h5>
               <h5><strong>COVERAGE: </strong>
                 {% if 'consultation.user_id.is_relative' %}<span class="badge bg-warning">85%</span>{% else %}<span class="badge bg-success">100%</span>{% endif %}</h5>
-              <h5><strong>AGE: </strong>{{ consultation.user_id.age }}</h5>
+              <h5><strong>AGE: </strong>{{ consultation.user_id.dob }} - {{ consultation.user_id.age }}</h5>
               <h5><strong>ID Number: </strong>{{ consultation.user_id.id_number }}</h5>
               <h5><strong>Description: </strong></h5>
               <p class="lead mb-5">{{ consultation.description }}</p>

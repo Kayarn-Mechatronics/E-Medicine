@@ -47,6 +47,7 @@ class register(View):
                                             last_name=form.cleaned_data['last_name'], 
                                             phonenum=form.cleaned_data['phone'], 
                                             password=make_password(form.cleaned_data['password']),
+                                            dob = form.cleaned_data['dob'],
                                             city=form.cleaned_data['city'],
                                             address=form.cleaned_data['address'],
                                             id_number=form.cleaned_data['id_number'],
@@ -86,7 +87,7 @@ class clinic_register(View):
                     self.context['errors'] = form.errors.get_json_data()['__all__']
                     return render(request, self.template_name, context=self.context)
                 else:
-                    user_OBJ = models.Users(email=form.cleaned_data['email'], first_name=form.cleaned_data['first_name'], last_name=form.cleaned_data['last_name'], phonenum=form.cleaned_data['phone'], password=make_password(form.cleaned_data['password']),
+                    user_OBJ = models.Users(email=form.cleaned_data['email'], specialisation=form.cleaned_data['specialisation'], first_name=form.cleaned_data['first_name'], last_name=form.cleaned_data['last_name'], phonenum=form.cleaned_data['phone'], password=make_password(form.cleaned_data['password']),
                         city=form.cleaned_data['city'],address=form.cleaned_data['address'],role='Clinic')
                     user_OBJ.save()
                     clinic_OBJ = models.clinics(name=form.cleaned_data['clinic'], doctor = user_OBJ )
@@ -123,7 +124,7 @@ class pharmacy_register(View):
                     self.context['errors'] = form.errors.get_json_data()['__all__']
                     return render(request, self.template_name, context=self.context)
                 else:
-                    user_OBJ = models.Users(email=form.cleaned_data['email'], first_name=form.cleaned_data['first_name'], last_name=form.cleaned_data['last_name'], phonenum=form.cleaned_data['phone'], password=make_password(form.cleaned_data['password']),
+                    user_OBJ = models.Users(email=form.cleaned_data['email'], specialisation='',first_name=form.cleaned_data['first_name'], last_name=form.cleaned_data['last_name'], phonenum=form.cleaned_data['phone'], password=make_password(form.cleaned_data['password']),
                         city=form.cleaned_data['city'],address=form.cleaned_data['address'],role="Pharmacist")
                     user_OBJ.save()
                     pharmacy_OBJ = models.pharmacy(name=form.cleaned_data['pharmacy'], pharmacist = user_OBJ )
@@ -204,6 +205,7 @@ class consultations(View, LoginRequiredMixin):
             consult = models.Consultations.objects.create(
                 user_id = request.user,
                 date = form.cleaned_data['datetime'],
+                time = form.cleaned_data['time'],
                 clinic = form.cleaned_data['clinic'],
                 description = form.cleaned_data['Description']
             )

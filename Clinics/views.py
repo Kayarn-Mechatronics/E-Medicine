@@ -8,6 +8,7 @@ from Patient import forms as PatientForms
 import Patient
 from . import forms as ClinicForms
 from lib.pindo import send_sms
+from random import randint
 
 
 class consultations(View, LoginRequiredMixin):
@@ -54,7 +55,8 @@ class Approveconsultations(View, LoginRequiredMixin):
             coverage = '85%'
         else:
             coverage = '100%'
-        send_sms(obj.user_id.phonenum, 'Dear {0}, We would to notify you that your medical consultation appointment request at {1} on the {2} has been approved! Please note that Cimerwa PLC will cover {3} of the cost.'.format(obj.user_id.first_name, obj.clinic.name, obj.date, coverage))           
+        pin = randint(100000,999999)
+        send_sms(obj.user_id.phonenum, 'Dear {0}, We would like to notify you that your medical consultation appointment request at {1} on the {2} at {3} has been approved! Please note that Cimerwa PLC will cover {4} of the cost. Please use the following Pin {5} to request service'.format(obj.user_id.first_name, obj.clinic.name, obj.date.date(), obj.time, coverage, pin))           
         
         return HttpResponseRedirect(reverse('Clinic_Consultation'))
 
@@ -66,7 +68,7 @@ class Denyconsultations(View, LoginRequiredMixin):
         obj = models.Consultations.objects.get(consultation_id=consultation_id)
         obj.status = 'Denied'
         obj.save()
-        send_sms(obj.user_id.phonenum, 'Dear {0}, We would to notify you that your medical consultation appointment request at {1} on the {2} has been denied! Please login back to insurance-mgt.herokuapp.com to book another appointment!.'.format(obj.user_id.first_name, obj.clinic.name, obj.date))           
+        send_sms(obj.user_id.phonenum, 'Dear {0}, We would like to notify you that your medical consultation appointment request at {1} on the {2} at {3} has been denied! Please login back to insurance-mgt.herokuapp.com to book another appointment!.'.format(obj.user_id.first_name, obj.clinic.name, obj.date.date(), obj.time))           
         return HttpResponseRedirect(reverse('Clinic_Consultation'))
 
 class invoices(View, LoginRequiredMixin):

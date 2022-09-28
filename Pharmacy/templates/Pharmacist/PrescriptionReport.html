@@ -43,11 +43,11 @@
               <h5><strong>AGE: </strong>{{ consultation.user_id.age }}</h5>
               <h5><strong>ID Number: </strong>{{ consultation.user_id.id_number }}</h5>
               <h5><strong>Description: </strong></h5>
-              <p class="lead mb-5">{{ consultation.description }}</p>
+              <p class="lead mb-5">{{ consultation.prescription }}</p>
             </div>
           </div>
           <div class="col-7">
-            <form method="POST" action={% url 'Consultation_Report'  consultation_id=consultation.consultation_id %}>
+            <form method="POST" action={% url 'Prescription_Report'  consultation_id=consultation.consultation_id %}>
               {% csrf_token %}
               {{ ConsultationReportForm }}
               <div class="modal-footer">

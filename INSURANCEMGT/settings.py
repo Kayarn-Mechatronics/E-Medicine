@@ -80,24 +80,24 @@ WSGI_APPLICATION = 'INSURANCEMGT.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'd5gm3n280cm919',                      
-#         'USER': 'djhsakxqqgzhob',
-#         'PASSWORD': '7eeddc7ce31e2daab85baf6e0372f5e64410c5d0afbe233f8f10c12552a1bcb4',
-#         'HOST': 'ec2-52-200-5-135.compute-1.amazonaws.com',
-#         'PORT': '5432',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd5gm3n280cm919',                      
+        'USER': 'djhsakxqqgzhob',
+        'PASSWORD': '7eeddc7ce31e2daab85baf6e0372f5e64410c5d0afbe233f8f10c12552a1bcb4',
+        'HOST': 'ec2-52-200-5-135.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 
 # Password validation
