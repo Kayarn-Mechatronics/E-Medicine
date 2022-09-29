@@ -45,8 +45,9 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Date</th>
+                                            <th>Type</th>
                                             <th>Place</th>
-                                            <th>Amount</th>
+                                            <th>My Balance</th>
                                             <th>Coverage</th>
                                         </tr>
                                     </thead>
@@ -55,14 +56,29 @@
                                         <tr>
                                             <th scope="row">{{forloop.counter}}</th>
                                             <td>{{ bill.date }}</td>
+                                            <td>Consultation</td>
                                             <td>{{ bill.clinic.name }}</td>
-                                            <td>10,000 RWF</td>
+                                            <td>1,500 RWF</td>
                                             {% if bill.user_id.is_relative %}
                                                 <td>85%</td>
                                             {% else %}
                                                 <td>85%</td>
                                             {% endif %}
                                         </tr>
+                                        {% if bill.status == 'Served' %}
+                                        <tr>
+                                          <th scope="row">{{forloop.counter}}</th>
+                                          <td>{{ bill.date }}</td>
+                                          <td>Prescription</td>
+                                          <td>{{ bill.pharmacy_id.name }}</td>
+                                          <td>{{ bill.patient_balance }}</td>
+                                          {% if bill.user_id.is_relative %}
+                                              <td>85%</td>
+                                          {% else %}
+                                              <td>85%</td>
+                                          {% endif %}
+                                      </tr>    
+                                        {% endif %}
                                         {% endfor %}
                                     </tbody>
                                 </table>
@@ -78,16 +94,6 @@
             </div>
         </div>
 
-    {% block ConsultationForm %}
-
-      {% include 'Consultation/ConsultationForm.html' with ConsultationForm=ConsultationForm %}
-
-    {% endblock %}
-    {% block ConfirmModalDelete %}
-
-      {% include 'Consultation/ConfirmDelete.html' %}
-
-    {% endblock %}
         
     </section>
   </div>
@@ -123,57 +129,5 @@
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
       
     });
-  </script>
-<script>
-$(function(){
-  $(".ModifyTarrif").click(function(){
-    $("#PricingFormTitle").html("Update Consultation");
-    $("#TarriffForm-tarrif_id").val($(this).attr("id"));
-    $("#from_time").val($(this).attr("data-from-time"));
-    $("#to_time").val($(this).attr("data-to-time"));
-    $("#cost").val($(this).attr("data-cost"));
-    $("#PricingFormAction").val("update");});
-
-  $(".DeleteTarrif").click(function(){
-    $("#DeleteTarrifForm-tarrifid").val($(this).attr("id"))});
-
-  $("#AddTarrif").click(function(){
-    $("#PricingFormTitle").html("Consultation Form");
-    $("#TariffForm").attr("Method", "POST");
-    $("#tarrif_id").val('None');
-    $("#from_time").val(0);
-    $("#to_time").val(0);
-    $("#cost").val(0);
-    
-  });
-
- 
-
-  $("#to_time").change(function(){
-    if(parseInt($(this).val()) < parseInt($("#from_time").val())){
-      toastr.warning("Time To must be greater than Time From");
-      $(this).val(parseInt($("#from_time").val())+1);
-    }
-    if(parseInt($(this).val()) < 0){
-      toastr.warning("Time To must be greater than 0");
-      $(this).val(0);
-    }
-  });
-});
-
-</script>
-
-<script>
-
-$(function (){
-
-$("#TarriffForm").submit(function(e){
-  e.preventDefault();
-  
-});
-
-});
-
-
 </script>
 {% endblock %}

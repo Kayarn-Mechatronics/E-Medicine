@@ -27,6 +27,7 @@ class registrationForm(forms.Form):
 
 class clinic_registrationForm(forms.Form):
     clinic = forms.CharField(label="Clinic Name",widget=forms.TextInput(attrs={'class':'form-control', 'id':'Clinic','placeholder':'Clinic Name'}))
+    specialisation = forms.CharField(label="Specialisation",widget=forms.TextInput(attrs={'class':'form-control', 'id':'Specialisaton','placeholder':'Medical Specialisaiton'}))
     first_name = forms.CharField(label="First Name",widget=forms.TextInput(attrs={'class':'form-control', 'id':'first_name','placeholder':'First Name'}))
     last_name = forms.CharField(label="Last Name",widget=forms.TextInput(attrs={'class':'form-control', 'id':'last_name','placeholder':'Last Name'}))
     email = forms.CharField(label='Email', widget=forms.EmailInput(attrs={'class':'form-control','id':'email','placeholder':'Email', 'data-inputmask' : '"alias": "email"'}))
@@ -49,6 +50,7 @@ class pharmacy_registrationForm(forms.Form):
 
 class ConsultationForm(forms.Form):
     datetime = forms.DateTimeField(label='Date', widget=forms.DateTimeInput(attrs={'class': 'form-control', 'id':'date', 'type':'date', 'min':'{0}-{1}-{2}'.format(datetime.datetime.now().year, datetime.datetime.now().month, datetime.datetime.now().day)}))
+    time = forms.TimeField(label='Time', widget=forms.TimeInput(attrs={'class': 'form-control', 'id':'Time', 'type':'time'}))
     clinic = forms.ModelChoiceField(label='Hospital', queryset=models.clinics.objects.all(), initial=0, widget=forms.Select(attrs={'class': 'form-control', 'id':'gate'}))
     Description = forms.CharField(label='Description', widget=forms.Textarea(attrs={'class': 'form-control', 'id':'description', 'placeholder':'Please describe symptoms or situation' }))
 

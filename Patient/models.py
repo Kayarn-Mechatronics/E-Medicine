@@ -1,6 +1,7 @@
 from django.db import models
 from .managers import CustomUserManager
 from django.contrib.auth.models import AbstractUser, User
+from datetime import date
 
 
 class Users(AbstractUser):
@@ -18,6 +19,7 @@ class Users(AbstractUser):
     is_relative = models.BooleanField(blank=True, null=True)
     id_number = models.CharField(max_length=255, unique=True, null=True, blank=True)
     dob = models.DateField(blank=True, null=True)
+    specialisation = models.CharField(max_length=255)
     username = None
 
     USERNAME_FIELD = 'email'
@@ -32,6 +34,15 @@ class Users(AbstractUser):
     def __str__(self):
         return self.first_name + ' '  +self.last_name
 
+    @property
+    def age(self):
+        try:
+            today = date.today()
+            return str(today.year - self.dob.year - ((today.month, today.day) < (self.dob.month, self.dob.day))) + "Years Old"
+        except AttributeError:
+            return ''
+
+
 
 class clinics(models.Model):
     clinic_id = models.SmallAutoField(db_column='clinic_id', primary_key=True, editable=False)
@@ -42,7 +53,7 @@ class clinics(models.Model):
         verbose_name_plural = "Clinics"
 
     def __str__(self):
-        return self.name
+        return self.name + ' - Dr.' + self.doctor.first_name + ' ' + self.doctor.last_name + ' - ' + self.doctor.specialisation
 
 
 class pharmacy(models.Model):
@@ -66,6 +77,7 @@ class Consultations(models.Model):
     consultation_id = models.SmallAutoField(db_column='Consultation_ID', primary_key=True, editable=False)
     user_id = models.ForeignKey(Users, on_delete=models.CASCADE, blank=True, null=True)
     date =  models.DateTimeField(db_column='Datetime', blank=True, null=True)
+    time =  models.TimeField(db_column='time', blank=True, null=True)
     clinic = models.ForeignKey(clinics, on_delete=models.CASCADE, blank=True, null=True)
     description = models.TextField(max_length=500, blank=True, null=True)
     status = models.CharField(max_length=255, choices=States, default='Pending')
@@ -74,8 +86,7 @@ class Consultations(models.Model):
     pharmacy_id = models.ForeignKey(pharmacy, on_delete=models.CASCADE, blank=True, null=True)
     prescription = models.CharField(max_length=500, null=True, blank=True)
     bill_pharmacy = models.BigIntegerField(null=True, blank=True)
-    pin_clinic = models.BigIntegerField(null=True, blank=True)
-    pin_pharmacy = models.BigIntegerField(null=True, blank=True)
+    pin_pharmacy = models.BooleanField(null=True, blank=True, default=False)
     
 
     class Meta:
@@ -84,6 +95,20 @@ class Consultations(models.Model):
 
     def __str__(self):
         return self.user_id.email
+    
+    @property
+    def pharmacy_balance(self):
+        if self.user_id.is_relative:
+            return self.bill_pharmacy * 0.85
+        else:
+            return 0
+
+    @property
+    def patient_balance(self):
+        if self.user_id.is_relative:
+            return self.bill_pharmacy * 0.15
+        else:
+            return 0
 
 
 class Contact(models.Model):

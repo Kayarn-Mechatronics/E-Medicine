@@ -45,28 +45,38 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Date</th>
-                                            <th>Doctor</th>
+                                            <th>Clinic - Doctor</th>
                                             <th>Patient</th>
-                                            <th>Medicine</th>
-                                            <th>Discount</th>
+                                            <th>Coverage</th>
                                             <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for tarrif in tarrifs %}
-                                        <tr>
-                                            <th scope="row">{{forloop.counter}}</th>
-                                            <td>{{ tarrif.from_time_formatted }}</td>
-                                            <td>{{ tarrif.to_time_formatted }}</td>
-                                            <td>{{ tarrif.cost_formated }} RWF</td>
-                                            <td>
-                                              <a class="btn-sm btn-warning ModifyTarrif" data-toggle="modal" data-target="#PricingFormModal" role="button" data-from-time={{ tarrif.from_time }} data-to-time={{ tarrif.to_time }} data-cost={{ tarrif.cost }} id={{ tarrif.tarrif_id }} data-bs-toggle="button">Update</a>
-                                              <a class="btn-sm btn-danger DeleteTarrif"  data-toggle="modal" data-target="#ConfirmModalDelete" role="button" id={{ tarrif.tarrif_id }} data-bs-toggle="button">Delete</a>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
+                                      {% for prescription in prescriptions %}
+                                      <tr>
+                                          <th scope="row">{{forloop.counter}}</th>
+                                          <td>{{ prescription.date }} </td>
+                                          <td>{{ prescription.clinic }}</td>
+                                          <td>{{ prescription.user_id }}</td>
+                                          {% if prescription.user_id.is_relative %}
+                                                <td>85%</td>
+                                            {% else %}
+                                                <td>85%</td>
+                                          {% endif %}
+                                          {% if prescription.pin_pharmacy %}
+                                                <td>Served</td>
+                                            {% else %}
+                                                <td>Pending</td>
+                                          {% endif %}
+                                          {% if prescription.pin_pharmacy %}
+                                            <td></td>
+                                          {% else %}
+                                            <td><a class="btn-sm btn-primary" href={% url 'Prescription_Report' consultation_id=prescription.consultation_id %}>Write Report</a></td>
+                                          {% endif %}
+                                      </tr>
+                                      {% endfor %}
+                                  </tbody>
                                 </table>
             </div>
             <!-- /.card-body -->
