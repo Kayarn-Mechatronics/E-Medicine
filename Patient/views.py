@@ -54,7 +54,6 @@ class register(View):
                                             role='Patient', 
                                             is_relative=form.cleaned_data['is_relative'])
                     user_OBJ.save()
-                    print(user_OBJ.phonenum)
                     send_sms(user_OBJ.phonenum, 'Dear {0}, Thank you for registering as patient to E-Medicine. We look forward to working with you to improve the health of the people of Kirehe'.format(user_OBJ.first_name))
                     return redirect(reverse('login'))
         else:

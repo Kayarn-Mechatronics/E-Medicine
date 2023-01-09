@@ -56,7 +56,7 @@ class Approveconsultations(View, LoginRequiredMixin):
         else:
             coverage = '100%'
         pin = randint(100000,999999)
-        send_sms(obj.user_id.phonenum, 'Dear {0}, We would like to notify you that your medical consultation appointment request at {1} on the {2} at {3} has been approved! Please note that Cimerwa PLC will cover {4} of the cost. Please use the following Pin {5} to request service'.format(obj.user_id.first_name, obj.clinic.name, obj.date.date(), obj.time, coverage, pin))           
+        send_sms(obj.user_id.phonenum, 'Dear {0}, We would like to notify you that your medical consultation appointment request at {1} on the {2} at {3} has been approved!  Please use the following Pin {5} to request service'.format(obj.user_id.first_name, obj.clinic.name, obj.date.date(), obj.time, coverage, pin))           
         
         return HttpResponseRedirect(reverse('Clinic_Consultation'))
 
