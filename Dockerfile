@@ -17,4 +17,4 @@ RUN pip install -r requirements.txt
 EXPOSE 8000  
 
 # start server  
-CMD ["python", "manage.py", "runserver"] 
+CMD ["gunicorn", "INSURANCEMGT.wsgi"] 
