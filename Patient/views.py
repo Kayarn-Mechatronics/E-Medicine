@@ -55,7 +55,7 @@ class register(View):
                                             is_relative=form.cleaned_data['is_relative'])
                     user_OBJ.save()
                     print(user_OBJ.phonenum)
-                    send_sms(user_OBJ.phonenum, 'Dear {0}, Thank you for registering as patient to Cimerwa. We look forward to working with you to improve the health of our staff and their relatives together'.format(user_OBJ.first_name))
+                    send_sms(user_OBJ.phonenum, 'Dear {0}, Thank you for registering as patient to E-Medicine. We look forward to working with you to improve the health of the people of Kirehe'.format(user_OBJ.first_name))
                     return redirect(reverse('login'))
         else:
             form.add_error(None, 'Please fill all fields and check the errors')
@@ -92,7 +92,7 @@ class clinic_register(View):
                     user_OBJ.save()
                     clinic_OBJ = models.clinics(name=form.cleaned_data['clinic'], doctor = user_OBJ )
                     clinic_OBJ.save()
-                    send_sms(user_OBJ.phonenum, 'Dear {0}, Thank you for registering {1} as a new partner to Cimerwa. We look forward to working with you to improve the health of our staff and their relatives together'.format(user_OBJ.first_name, clinic_OBJ.name))
+                    send_sms(user_OBJ.phonenum, 'Dear {0}, Thank you for registering {1} as a new partner to E-Medicine. We look forward to working with you to improve the health of the citizens of Kirehe'.format(user_OBJ.first_name, clinic_OBJ.name))
                     return redirect(reverse('login'))
         else:
             form.add_error(None, 'Please fill all fields and check the errors')
@@ -129,7 +129,7 @@ class pharmacy_register(View):
                     user_OBJ.save()
                     pharmacy_OBJ = models.pharmacy(name=form.cleaned_data['pharmacy'], pharmacist = user_OBJ )
                     pharmacy_OBJ.save()
-                    send_sms(user_OBJ.phonenum, 'Dear {0}, Thank you for registering {1} as a new partner to Cimerwa. We look forward to working with you to improve the health of our staff and their relatives together'.format(user_OBJ.first_name, pharmacy_OBJ.name))
+                    send_sms(user_OBJ.phonenum, 'Dear {0}, Thank you for registering {1} as a new partner to E-Medicine. We look forward to working with you to improve the health of the citizens of Kirehe.'.format(user_OBJ.first_name, pharmacy_OBJ.name))
                     return redirect(reverse('login'))
         else:
             form.add_error(None, 'Please fill all fields and check the errors')
